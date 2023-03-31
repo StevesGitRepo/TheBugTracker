@@ -8,6 +8,7 @@ namespace TheBugTracker.Models
         //Id is the Primary Key of a Ticket, and creates a Foreign Key for other tabkes
         public int Id { get; set; }
 
+
         [DisplayName("Ticket")]
         public int TicketId { get; set; }
 
