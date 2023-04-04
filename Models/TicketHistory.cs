@@ -23,7 +23,7 @@ namespace TheBugTracker.Models
 
         [DisplayName("Date Modified")]
         public DateTimeOffset Created { get; set; }
-
+    
         [DisplayName("Description of Change")]
         public string Description { get; set; }
 
