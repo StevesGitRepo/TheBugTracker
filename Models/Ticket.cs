@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Options;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -64,5 +65,13 @@ namespace TheBugTracker.Models
         public virtual BTUser OwnerUser { get; set; }
 
         public virtual BTUser DeveloperUser { get; set; }
+
+        public virtual ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
+
+        public virtual ICollection<TicketAttachment> Attachments { get; set; } = new HashSet<TicketAttachment>();
+
+        public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
+
+        public virtual ICollection<TicketHistory> History { get; set; } = new HashSet<TicketHistory>();
     }
 }
