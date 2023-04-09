@@ -2,45 +2,56 @@
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheBugTracker.Models
 {
     public class Project
     {
-        //Id
+        //Primary Key, Entity Framework recognizes "Id" as the primary key
         public int Id { get; set; }
 
         //CompanyId
         [DisplayName("Company Id")]
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
 
         //Name
+        [Required]
+        [StringLength(50)]
         [DisplayName("Project Name")]
-        public string ProjectName { get; set; }
+        public string Name { get; set; }
 
         //Description
-        [DisplayName("Project Description")]
+        [DisplayName("Description")]
         public string Description { get; set; }
 
         //StartDate
-        [DisplayName("Project Start Date")]
+        [DisplayName("Start Date")]
         public DateTimeOffset StartDate { get; set; }
 
         //EndDate
-        [DisplayName("Project End Date")]
+        [DisplayName("End Date")]
         public DateTimeOffset EndDate { get; set; }
 
         //ProjectPriorityId
-        [DisplayName("Project Priority Id")]
+        [DisplayName("Priority")]
         public int ProjectPriorityId { get; set; }
 
         //Attachment
         [NotMapped]
         [DataType(DataType.Upload)]
-        public IFormFile Attachment { get; set; }
+        public IFormFile ImageFormFile { get; set; }
+
+        [DisplayName("File Name")]
+        public string ImageFileName { get; set; }
+        public byte[] ImageFileData { get; set; }
+
+        [DisplayName("File Extension")]
+        public string ImageContentType { get; set; }
 
         //Archived
-        prop
+        [DisplayName("Archived")]
+        public bool Archived { get; set; }
 
         //Navigation
 
@@ -48,10 +59,9 @@ namespace TheBugTracker.Models
 
         public virtual ProjectPriority ProjectPriority { get; set; }
 
-        public virtual Members Members { get; set; }
+        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
 
-        public virtual Tickets Tickets { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
     }
 
-    //use the TicketAttachment class for example to create Attachment
 }
