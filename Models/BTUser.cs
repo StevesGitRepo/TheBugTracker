@@ -23,6 +23,7 @@ namespace TheBugTracker.Models
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
         //Avatar
+        [NotMapped]
         [DataType(DataType.Upload)]
         public IFormFile AvatarFormFile { get; set; }
 

@@ -13,12 +13,12 @@ namespace TheBugTracker.Models
 
         //Lookup tables
 
-        [Required]
+        //[Required]
         [StringLength(50)]
         [DisplayName("Title")]
         public string Title { get; set; }
 
-        [Required]
+        //[Required]
         [DisplayName("Description")]
         public string Description { get; set; }
 

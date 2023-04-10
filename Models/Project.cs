@@ -11,7 +11,7 @@ namespace TheBugTracker.Models
         //Primary Key, Entity Framework recognizes "Id" as the primary key
         public int Id { get; set; }
 
-        //CompanyId
+        //CompanyId - Foreign Key
         [DisplayName("Company Id")]
         public int? CompanyId { get; set; }
 
@@ -33,7 +33,7 @@ namespace TheBugTracker.Models
         [DisplayName("End Date")]
         public DateTimeOffset EndDate { get; set; }
 
-        //ProjectPriorityId
+        //ProjectPriorityId - Foreign Key
         [DisplayName("Priority")]
         public int ProjectPriorityId { get; set; }
 

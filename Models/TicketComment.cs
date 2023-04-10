@@ -23,7 +23,7 @@ namespace TheBugTracker.Models
 
         //User Id
         [DisplayName("Team Member")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         //Navigation Properties
         //Ticket
