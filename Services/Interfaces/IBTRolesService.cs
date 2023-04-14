@@ -9,7 +9,7 @@ namespace TheBugTracker.Services.Interfaces
     {
         public Task<bool> IsUserInRoleAsync(BTUser user, string rolename);
 
-        public Task<IEnumerable<string>> GetUserRoleAsync(BTUser user);
+        public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user);
 
         public Task<bool> AddUserToRoleAsync(BTUser user, string rolename);
 
@@ -19,7 +19,7 @@ namespace TheBugTracker.Services.Interfaces
 
         public Task<List<BTUser>> GetUsersInRoleAsync(string rolename, int companyId);
 
-        public Task<List<BTUser>> GetUsersNotInRolseAsync(string rolename, int companyId);
+        public Task<List<BTUser>> GetUsersNotInRoleAsync(string rolename, int companyId);
 
         public Task<string> GetRoleNameByIdAsync(string roleId);
     
