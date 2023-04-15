@@ -30,17 +30,40 @@ namespace TheBugTracker.Services
             result = await _context.Projects.Where(p => p.CompanyId == companyId)
                                             .Include(p => p.Members)
                                             .Include(p => p.Tickets)
+                                                .ThenInclude(t=> t.Comments)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.Attachments)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.History)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.Notifications)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.DeveloperUser)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.OwnerUser)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketStatus)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketPriority)
+                                            .Include(p => p.Tickets)
+                                                .ThenInclude(t => t.TicketType)
                                             .Include(p => p.ProjectPriority)
                                             .ToListAsync();
 
             return result;
         }
 
-        public async Task<List<Ticket>> GetAllTicketsAsync(int ticketId)
+        public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
-            List<Ticket> result = new List<Ticket>();
-            result = await _context.Tickets.Where(u=> u.ProjectId == ticketId).ToListAsync();
+            List<Ticket> result = new List<Ticket>(); //instatiation
+            List<Project> projects = new List<Project>();           
+
+            projects = await GetAllProjectsAsync(companyId);
+
+            result = projects.SelectMany(p => p.Tickets).ToList();
+
             return result;
+
         }
 
         public async Task<Company> GetCompanyInfoByIdAsync(int? companyId)
@@ -48,6 +71,7 @@ namespace TheBugTracker.Services
             List<Company> result = new List<Company>();
             result = await _context.Companies.Where(u=> u.Id == companyId).ToListAsync();
             return result;
+
         }
     }
 }
