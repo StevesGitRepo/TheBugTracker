@@ -18,5 +18,7 @@ namespace TheBugTracker.Models
         public virtual ICollection<Project> Projects { get; set; }
 
         //create relationship to Invitees
+        public virtual ICollection<Invite> Invites { get; set; }
+
     }
 }
