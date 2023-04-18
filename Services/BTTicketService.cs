@@ -99,6 +99,7 @@ namespace TheBugTracker.Services
             throw new NotImplementedException();
         }
 
+        //HELPER METHODS
         public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
         {
             try
