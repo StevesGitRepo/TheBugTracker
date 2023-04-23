@@ -39,7 +39,23 @@ namespace TheBugTracker.Services
 
         public async Task AssignTicketAsync(int ticketId, string userId)
         {
-            throw new NotImplementedException();
+            Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            try
+            {
+                ticket.DeveloperUserId = userId;
+                //Revisit this code when assigning the Tickets
+                ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
         }
 
         public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
@@ -193,9 +209,26 @@ namespace TheBugTracker.Services
             return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
-        public async Task<BTUser> GetTicketDeveloperAsync(int ticketId)
+        public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
         {
-            throw new NotImplementedException();
+            BTUser developer = new();
+
+            try
+            {
+                Ticket ticket =  (await GetAllTicketsByCompanyAsync(companyId)).FirstOrDefault(t => t.Id == ticketId);
+
+                if(ticket != null)
+                {
+                    developer = ticket.DeveloperUser;
+                }
+
+                return developer;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
