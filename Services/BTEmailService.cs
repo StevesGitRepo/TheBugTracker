@@ -1,8 +1,8 @@
-﻿using MailKit.Security;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Net.Mail;
 using TheBugTracker.Models;
 
 namespace TheBugTracker.Services
