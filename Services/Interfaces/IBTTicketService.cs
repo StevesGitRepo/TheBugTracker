@@ -4,14 +4,14 @@ namespace TheBugTracker.Services.Interfaces
 {
     public interface IBTTicketService
     {
-        //CRUD methods
+        // CRUD Methods
         //CREATE
         public Task AddNewTicketAsync(Ticket ticket);
         //UPDATE
         public Task UpdateTicketAsync(Ticket ticket);
         //READ
         public Task<Ticket> GetTicketByIdAsync(int ticketId);
-        //ARCHIVE
+        //DELETE
         public Task ArchiveTicketAsync(Ticket ticket);
 
         public Task AssignTicketAsync(int ticketId, string userId);
@@ -32,7 +32,5 @@ namespace TheBugTracker.Services.Interfaces
         public Task<int?> LookupTicketPriorityIdAsync(string priorityName);
         public Task<int?> LookupTicketStatusIdAsync(string statusName);
         public Task<int?> LookupTicketTypeIdAsync(string typeName);
-
-
     }
 }

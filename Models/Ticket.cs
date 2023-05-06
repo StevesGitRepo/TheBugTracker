@@ -16,11 +16,11 @@ namespace TheBugTracker.Models
         //[Required]
         [StringLength(50)]
         [DisplayName("Title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         //[Required]
         [DisplayName("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("Created")]
@@ -48,10 +48,10 @@ namespace TheBugTracker.Models
         //BTUsers
 
         [DisplayName("Ticket Owner")]
-        public string OwnerUserId { get; set; }
+        public string? OwnerUserId { get; set; }
 
         [DisplayName("Ticket Developer")]
-        public string DeveloperUserId { get; set; }
+        public string? DeveloperUserId { get; set; }
 
         //Navigation Properties
         public virtual Project Project { get; set; }

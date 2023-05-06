@@ -19,11 +19,11 @@ namespace TheBugTracker.Models
         [Required]
         [StringLength(50)]
         [DisplayName("Project Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         //Description
         [DisplayName("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         //StartDate
         [DisplayName("Start Date")]
@@ -43,11 +43,11 @@ namespace TheBugTracker.Models
         public IFormFile ImageFormFile { get; set; }
 
         [DisplayName("File Name")]
-        public string ImageFileName { get; set; }
+        public string? ImageFileName { get; set; }
         public byte[] ImageFileData { get; set; }
 
         [DisplayName("File Extension")]
-        public string ImageContentType { get; set; }
+        public string? ImageContentType { get; set; }
 
         //Archived
         [DisplayName("Archived")]

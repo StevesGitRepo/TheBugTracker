@@ -11,7 +11,7 @@ namespace TheBugTracker.Models
 
         //Comment
         [DisplayName("Member Comment")]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         //Created
         [DisplayName("Date")]
@@ -23,7 +23,7 @@ namespace TheBugTracker.Models
 
         //User Id
         [DisplayName("Team Member")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         //Navigation Properties
         //Ticket

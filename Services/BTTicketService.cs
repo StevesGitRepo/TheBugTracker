@@ -14,7 +14,7 @@ namespace TheBugTracker.Services
         private readonly IBTProjectService _projectService;
 
         public BTTicketService(ApplicationDbContext context, 
-                                IBTTicketService ticketService, 
+                                IBTTicketService ticketService,
                                 IBTRolesService roleService,
                                 IBTProjectService projectService)
         {

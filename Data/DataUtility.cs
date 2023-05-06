@@ -46,7 +46,7 @@ namespace TheBugTracker.Data
             return builder.ToString();
         }
 
-        public static async Task ManageDataAsync(IHost host)
+        public static async Task ManageDataAsync(IHost host, ConfigurationManager configuration)
         {
             using var svcScope = host.Services.CreateScope();
             var svcProvider = svcScope.ServiceProvider;
