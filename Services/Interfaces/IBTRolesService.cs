@@ -1,4 +1,5 @@
-﻿using TheBugTracker.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using TheBugTracker.Models;
 
 namespace TheBugTracker.Services.Interfaces
 {
@@ -22,6 +23,6 @@ namespace TheBugTracker.Services.Interfaces
         public Task<List<BTUser>> GetUsersNotInRoleAsync(string rolename, int companyId);
 
         public Task<string> GetRoleNameByIdAsync(string roleId);
-    
+        Task<List<IdentityRole>> GetRolesAsync();
     }
 }
