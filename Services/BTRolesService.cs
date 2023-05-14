@@ -32,7 +32,7 @@ namespace TheBugTracker.Services
             bool result = (await _userManager.AddToRoleAsync(user, rolename)).Succeeded;
             return result;
         }
-; 
+ 
         #endregion
 
         #region Get Roles
