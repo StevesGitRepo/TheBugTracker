@@ -40,11 +40,11 @@ namespace TheBugTracker.Models
         //Attachment
         [NotMapped]
         [DataType(DataType.Upload)]
-        public IFormFile ImageFormFile { get; set; }
+        public IFormFile? ImageFormFile { get; set; }
 
         [DisplayName("File Name")]
         public string? ImageFileName { get; set; }
-        public byte[] ImageFileData { get; set; }
+        public byte[]? ImageFileData { get; set; }
 
         [DisplayName("File Extension")]
         public string? ImageContentType { get; set; }
@@ -55,9 +55,9 @@ namespace TheBugTracker.Models
 
         //Navigation
 
-        public virtual Company Company { get; set; }
+        public virtual Company? Company { get; set; }
 
-        public virtual ProjectPriority ProjectPriority { get; set; }
+        public virtual ProjectPriority? ProjectPriority { get; set; }
 
         public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
 
