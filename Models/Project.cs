@@ -27,10 +27,12 @@ namespace TheBugTracker.Models
 
         //StartDate
         [DisplayName("Start Date")]
+        [DataType(DataType.Date)]
         public DateTimeOffset StartDate { get; set; }
 
         //EndDate
         [DisplayName("End Date")]
+        [DataType(DataType.Date)]
         public DateTimeOffset EndDate { get; set; }
 
         //ProjectPriorityId - Foreign Key
