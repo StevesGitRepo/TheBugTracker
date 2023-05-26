@@ -135,7 +135,7 @@ namespace TheBugTracker.Controllers
 
             //Load SelectLists with data ie. PMList & PriorityList
             model.PMList = new SelectList(await _roleService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
-            model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "FullName");fadsfdsafdsaura
+            model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "FullName");
 
             return View(model);
         }
@@ -188,8 +188,7 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            int? companyId = User.Identity.GetCompanyId().Value;
-
+            int companyId = User.Identity.GetCompanyId().Value;
             var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
 
 
