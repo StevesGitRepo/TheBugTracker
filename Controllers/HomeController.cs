@@ -9,6 +9,7 @@ namespace TheBugTracker.Controllers
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
+
         {
             _logger = logger;
         }

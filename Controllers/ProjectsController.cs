@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using TheBugTracker.Extensions;
 using TheBugTracker.Models;
 using TheBugTracker.Models.Enums;
 using TheBugTracker.Models.ViewModels;
+using TheBugTracker.Services;
 using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Controllers
@@ -21,12 +23,16 @@ namespace TheBugTracker.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
+        private readonly IBTCompanyInfoService _companyInfoService;
+        private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
             IBTRolesService roleService,
             IBTLookupService lookupService,
             IBTFileService fileservice,
-            IBTProjectService projectService
+            IBTProjectService projectService,
+            IBTCompanyInfoService companyInfoService,
+            UserManager<BTUser> userManager
             )
         {
             _context = context;
@@ -34,6 +40,8 @@ namespace TheBugTracker.Controllers
             _lookupService = lookupService;
             _fileService = fileservice;
             _projectService = projectService;
+            _userManager = userManager;
+            _companyInfoService = companyInfoService;
         }
 
         // GET: Projects
@@ -42,6 +50,45 @@ namespace TheBugTracker.Controllers
             var applicationDbContext = _context.Projects.Include(p => p.Company).Include(p => p.ProjectPriority);
             return View(await applicationDbContext.ToListAsync());
         }
+
+        public async Task<IActionResult> MyProjects()
+        {
+            string userId = _userManager.GetUserId(User);
+
+            List<Project> projects = await _projectService.GetUserProjectsAsync(userId);
+
+            return View(projects);
+        }
+
+        public async Task<IActionResult> AllProjects()
+        {
+
+            List<Project> projects = new();
+
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+            {
+                projects = await _companyInfoService.GetAllProjectsAsync(companyId);
+            }
+            else
+            {
+                projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+            }
+
+            return View(projects);
+        }
+
+        public async Task<IActionResult> ArchivedProjects()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetArchivedProjectsByCompanyAsync(companyId);
+
+            return View(projects);
+
+        }
+
 
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -91,7 +138,7 @@ namespace TheBugTracker.Controllers
 
                 try
                 {
-                    if(model.Project.ImageFormFile != null)
+                    if (model.Project.ImageFormFile != null)
                     {
                         model.Project.ImageFileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.ImageFormFile);
                         model.Project.ImageFileName = model.Project.ImageFormFile.FileName;
@@ -180,7 +227,7 @@ namespace TheBugTracker.Controllers
             return RedirectToAction("Edit");
         }
 
-        // GET: Projects/Delete/5
+        // GET: Projects/Archive/5
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null || _context.Projects == null)
@@ -201,7 +248,7 @@ namespace TheBugTracker.Controllers
             return View(project);
         }
 
-        // POST: Projects/Delete/5
+        // POST: Projects/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchiveConfirmed(int id)
@@ -214,9 +261,41 @@ namespace TheBugTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //GET: Projects/Restore/5   
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        // POST: Projects/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            var project = await _projectService.GetProjectByIdAsync(id, companyId);
+            await _projectService.RestoreProjectAsync(project);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool ProjectExists(int id)
         {
-          return (_context.Projects?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Projects?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

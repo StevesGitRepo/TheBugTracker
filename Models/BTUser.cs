@@ -35,10 +35,10 @@ namespace TheBugTracker.Models
         public string? AvatarContentType { get; set; }
 
         //Foreign Key - every user must be attached to a company
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         //Navigation
-        public virtual Company? Company { get; set; }
+        public virtual Company Company { get; set; }
 
         public virtual ICollection<Project>? Projects { get; set; }
     }
