@@ -166,7 +166,7 @@ namespace TheBugTracker.Services
         #region Get All Projects By Priority
         public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
-            List<Project> projects = await GetAllProjectsByCompany(companyId);
+            List<Project> projects = await GetAllProjectsByCompanyAsync(companyId);
             int priorityId = await LookupProjectPriorityId(priorityName);
 
             return projects.Where(p => p.ProjectPriorityId == priorityId).ToList();
@@ -218,22 +218,22 @@ namespace TheBugTracker.Services
             try
             {
 
-            Project? project = await _context.Projects
-                                            .Include(p => p.Tickets)
-                                                .ThenInclude(t => t.TicketPriority)
-                                            .Include(p => p.Tickets)
-                                                .ThenInclude(t => t.TicketStatus)
-                                            .Include(p => p.Tickets)
-                                                .ThenInclude(t => t.TicketType)
-                                            .Include(p => p.Tickets)
-                                                .ThenInclude(t => t.DeveloperUser)
-                                            .Include(p => p.Tickets)
-                                                .ThenInclude(t => t.OwnerUser)
-                                            .Include(p => p.Members)
-                                            .Include(p => p.ProjectPriority)
-                                            .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
+                Project? project = await _context.Projects
+                                                .Include(p => p.Tickets)
+                                                    .ThenInclude(t => t.TicketPriority)
+                                                .Include(p => p.Tickets)
+                                                    .ThenInclude(t => t.TicketStatus)
+                                                .Include(p => p.Tickets)
+                                                    .ThenInclude(t => t.TicketType)
+                                                .Include(p => p.Tickets)
+                                                    .ThenInclude(t => t.DeveloperUser)
+                                                .Include(p => p.Tickets)
+                                                    .ThenInclude(t => t.OwnerUser)
+                                                .Include(p => p.Members)
+                                                .Include(p => p.ProjectPriority)
+                                                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
 
-            return project;
+                return project;
 
             }
             catch (Exception)
@@ -335,6 +335,30 @@ namespace TheBugTracker.Services
             List<BTUser> users = await _context.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToListAsync();
 
             return users.Where(u => u.CompanyId == companyId).ToList();
+        }
+        #endregion
+
+        #region Is Assigned Project Manager
+        public async Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId)
+        {
+            try
+            {
+                string projectManagerId = (await GetProjectManagerAsync(projectId))?.Id;
+
+                if (projectManagerId == userId)
+                { 
+                    return true; 
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         #endregion
 
