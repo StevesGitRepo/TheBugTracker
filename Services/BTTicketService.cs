@@ -37,6 +37,20 @@ namespace TheBugTracker.Services
                 throw;
             }
         }
+
+        public async Task AddTicketCommentAsync(TicketComment ticketComment)
+        {
+            try
+            {
+                await _context.AddAsync(ticketComment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         //ARCHIVE (Update)
         public async Task ArchiveTicketAsync(Ticket ticket)
         {
