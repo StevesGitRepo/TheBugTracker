@@ -19,6 +19,8 @@ using TheBugTracker.Models.Enums;
 using TheBugTracker.Models.ViewModels;
 using TheBugTracker.Services;
 using TheBugTracker.Services.Interfaces;
+using TheBugTracker.Controllers;
+
 
 namespace TheBugTracker.Controllers
 {
@@ -257,8 +259,9 @@ namespace TheBugTracker.Controllers
 
             if (ModelState.IsValid)
             {
-
                 BTUser btUser = await _userManager.GetUserAsync(User);
+                Ticket oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+
                 try
                 {
                     ticket.Updated = DateTimeOffset.Now;
