@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿    using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using TheBugTracker.Data;
 using TheBugTracker.Models;

@@ -27,6 +27,7 @@ namespace TheBugTracker.Controllers
     [Authorize]
     public class TicketsController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTProjectService _projectService;
         private readonly IBTLookupService _lookupService;
@@ -35,7 +36,8 @@ namespace TheBugTracker.Controllers
         private readonly IBTTicketHistoryService _historyService;
 
 
-        public TicketsController(UserManager<BTUser> userManager,
+        public TicketsController(ApplicationDbContext context,
+                                 UserManager<BTUser> userManager,
                                  IBTProjectService projectService,
                                  IBTLookupService lookupService,
                                  IBTTicketService ticketService,
@@ -43,6 +45,7 @@ namespace TheBugTracker.Controllers
                                  IBTTicketHistoryService historyService)
 
         {
+            _context = context;
             _userManager = userManager;
             _projectService = projectService;
             _lookupService = lookupService;
@@ -240,7 +243,7 @@ namespace TheBugTracker.Controllers
                     throw;
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
 
             }
             if (User.IsInRole(nameof(Roles.Admin)))
@@ -317,7 +320,7 @@ namespace TheBugTracker.Controllers
                 Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
                 await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit));
             }
 
             ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name", ticket.TicketPriorityId);
@@ -427,7 +430,7 @@ namespace TheBugTracker.Controllers
             ticket.Archived = true;
             await _ticketService.UpdateTicketAsync(ticket);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ArchiveConfirmed));
         }
 
         // GET: Tickets/Restore/5
@@ -460,7 +463,7 @@ namespace TheBugTracker.Controllers
             ticket.Archived = false;
             await _ticketService.UpdateTicketAsync(ticket);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(RestoreConfirmed));
         }
 
         public async Task<IActionResult> ShowFile(int id)

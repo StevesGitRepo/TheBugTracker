@@ -20,6 +20,7 @@ namespace TheBugTracker.Controllers
     [Authorize]
     public class ProjectsController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _roleService;
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
@@ -28,7 +29,8 @@ namespace TheBugTracker.Controllers
         private readonly UserManager<BTUser> _userManager;
 
         //CONSTRUCTOR INJECTION:
-        public ProjectsController(IBTRolesService roleService,
+        public ProjectsController(ApplicationDbContext context,
+                                  IBTRolesService roleService,
                                   IBTLookupService lookupService,
                                   IBTFileService fileservice,
                                   IBTProjectService projectService,
@@ -37,6 +39,7 @@ namespace TheBugTracker.Controllers
 
         //CONSTRUCTOR ASSIGNMENT:
         {
+            _context = context;
             _roleService = roleService;
             _lookupService = lookupService;
             _fileService = fileservice;
