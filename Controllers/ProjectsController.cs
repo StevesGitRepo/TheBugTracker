@@ -30,12 +30,12 @@ namespace TheBugTracker.Controllers
 
         //CONSTRUCTOR INJECTION:
         public ProjectsController(ApplicationDbContext context,
+                                  UserManager<BTUser> userManager,
                                   IBTRolesService roleService,
                                   IBTLookupService lookupService,
                                   IBTFileService fileservice,
                                   IBTProjectService projectService,
-                                  IBTCompanyInfoService companyInfoService,
-                                  UserManager<BTUser> userManager)
+                                  IBTCompanyInfoService companyInfoService)
 
         //CONSTRUCTOR ASSIGNMENT:
         {

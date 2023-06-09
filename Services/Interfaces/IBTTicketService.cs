@@ -1,5 +1,6 @@
 ﻿using TheBugTracker.Models;
 
+
 namespace TheBugTracker.Services.Interfaces
 {
     public interface IBTTicketService
