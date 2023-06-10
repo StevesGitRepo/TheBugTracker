@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using TheBugTracker.Data;
+using TheBugTracker.Helpers;
 using TheBugTracker.Models;
 using TheBugTracker.Services;
 using TheBugTracker.Services.Factories;
@@ -46,6 +47,8 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+await DataHelper.ManageDataAsync(scope.ServiceProvider);
 
 await DataUtility.ManageDataAsync(app, builder.Configuration);
 
